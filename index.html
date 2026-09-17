@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Ajar Interaktif OSN Geografi SMA - LBB Kelas Pintar Orion</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        orion: {
+                            50: '#f0f4ff',
+                            100: '#e0e9fe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        geo: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .tab-btn.active {
+            background-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-orion-500 selection:text-white">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-xl border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Branding -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-emerald-400 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-blue-500/30">
+                        <i class="fa-solid font-bold fa-globe animate-pulse"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold tracking-widest uppercase bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full">OSN Geografi SMA</span>
+                            <span class="text-xs font-semibold text-blue-300">Modul Interaktif</span>
+                        </div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                            LBB KELAS PINTAR ORION
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden lg:flex items-center space-x-1 bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700">
+                    <button onclick="switchTab('pendahuluan')" id="nav-pendahuluan" class="tab-btn active px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-compass"></i> Pendahuluan
+                    </button>
+                    <button onclick="switchTab('materi')" id="nav-materi" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> Materi Lengkap
+                    </button>
+                    <button onclick="switchTab('lab')" id="nav-lab" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-flask-vial text-emerald-400"></i> Lab Virtual
+                    </button>
+                    <button onclick="switchTab('lkpd')" id="nav-lkpd" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-file-pen text-amber-400"></i> LKPD
+                    </button>
+                    <button onclick="switchTab('asesmen')" id="nav-asesmen" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-award text-rose-400"></i> Asesmen (25 Soal)
+                    </button>
+                </nav>
+
+                <!-- Mobile Navigation Toggle -->
+                <div class="lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white border border-slate-700">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-800 border-b border-slate-700 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('pendahuluan'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-700 flex items-center gap-2">
+                <i class="fa-solid fa-compass text-blue-400"></i> Pendahuluan
+            </button>
+            <button onclick="switchTab('materi'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-700 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-blue-400"></i> Materi Lengkap
+            </button>
+            <button onclick="switchTab('lab'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-700 flex items-center gap-2">
+                <i class="fa-solid fa-flask-vial text-emerald-400"></i> Lab Virtual Interaktif
+            </button>
+            <button onclick="switchTab('lkpd'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-700 flex items-center gap-2">
+                <i class="fa-solid fa-file-pen text-amber-400"></i> LKPD Studi Kasus
+            </button>
+            <button onclick="switchTab('asesmen'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-700 flex items-center gap-2">
+                <i class="fa-solid fa-award text-rose-400"></i> Asesmen Uji Kemampuan (25 Soal)
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION 1: PENDAHULUAN -->
+        <section id="section-pendahuluan" class="tab-content block space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white p-8 sm:p-12 shadow-2xl border border-indigo-800/50">
+                <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider">
+                        <i class="fa-solid fa-sparkles text-amber-300"></i> Edisi Resmi Pembinaan OSN 2026
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                        Mastery Hub <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-emerald-400">OSN Geografi SMA</span>
+                    </h2>
+                    <p class="text-slate-300 text-base sm:text-lg font-light leading-relaxed">
+                        Selamat datang di media pembelajaran interaktif komprehensif. Didesain secara khusus oleh <strong class="text-white font-semibold">Tim Penyusun LBB Kelas Pintar Orion</strong> untuk membekali calon juara olimpiade dengan pemahaman konsep keruangan, analisis spasial HOTS, laboratorium virtual, dan simulasi asesmen standar iGeo.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button onclick="switchTab('materi')" class="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                            Mulai Belajar Materi <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                        <button onclick="switchTab('lab')" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold rounded-xl border border-slate-700 shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-flask-vial"></i> Buka Lab Virtual
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Identity & Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card Penyusun -->
+                <div class="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">Identitas Pengembang</h3>
+                        <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3">LBB Kelas Pintar Orion</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Disusun secara kolaboratif oleh Tim Tutor & Dosen Pembina OSN Geografi LBB Kelas Pintar Orion yang berpengalaman mengantarkan medalis tingkat Nasional dan Internasional (iGeo).
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+                        <span><i class="fa-solid fa-circle-check text-emerald-500"></i> Terverifikasi Standar BPTI</span>
+                        <span>v2026.1</span>
+                    </div>
+                </div>
+
+                <!-- Card Cakupan Silabus -->
+                <div class="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">Cakupan Silabus Integratif</h3>
+                        <p class="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-3">Standar iGeo & Puspresnas</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Mencakup 12 domain keilmuan geografi: Litosfer, Atmosfer, Oseanografi, Hidrologi, Kebencanaan, Lingkungan, Geografi Ekonomi, Perkotaan, Demografi, Pariwisata, Kartografi, & Penginderaan Jauh.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+                        <span><i class="fa-solid fa-book"></i> 6 Modul Utama</span>
+                        <span>25 Soal HOTS</span>
+                    </div>
+                </div>
+
+                <!-- Card Metodologi Pembelajaran -->
+                <div class="glass-panel p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">Pendekatan 4-Tingkat</h3>
+                        <p class="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-3">Sistematis & Komprehensif</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Menggabungkan penguatan konsep teoretis, eksperimen laboratorium interaktif berbasis simulasi parameter, aplikasi LKPD studi kasus kontekstual, serta evaluasi terukur.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+                        <span><i class="fa-solid fa-chart-line text-blue-500"></i> Orientasi Medal Target</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matriks Strategi Sukses OSN -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 space-y-6">
+                <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                    <div class="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+                        <i class="fa-solid fa-lightbulb text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">4 Pilar Strategi Lolos OSN Geografi (Tips Kelas Pintar Orion)</h3>
+                        <p class="text-xs text-slate-500">Panduan khusus taktik pengerjaan tes teori & tes lapangan (fieldwork)</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                        <div class="font-bold text-blue-600 text-lg">01. Kuasai Spatial Thinking</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Jangan hanya menghafal istilah! Pelajari korelasi keruangan antar fenomena (contoh: dampak interaksi sirkulasi Hadley terhadap sebaran gurun dunia).</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                        <div class="font-bold text-emerald-600 text-lg">02. Literasi Peta & Grafis</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Asah kemampuan membaca profil kontur, diagram termoklin, grafik klimatograf, serta analisis spektral citra satelit secara kuantitatif.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                        <div class="font-bold text-amber-600 text-lg">03. Pemodelan Matematika</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Pahami rumus-rumus kuantitatif penting: Indeks Material Weber, Rasio Ketergantungan, Kelembaban Relatif, DPT, dan Persamaan Infiltrasi.</p>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                        <div class="font-bold text-purple-600 text-lg">04. Analisis Isu Kontemporer</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Kaitkan teori geografi dengan isu riil global seperti perubahan iklim, krisis pangan/energi, ketimpangan desa-kota, serta keberlanjutan (SDGs).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MATERI LENGKAP -->
+        <section id="section-materi" class="tab-content hidden space-y-8">
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                        <i class="fa-solid fa-book-journal-whills text-blue-600"></i> Modul Pembelajaran Terstruktur
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">Pilih bab keilmuan di bawah ini untuk mempelajari rangkuman materi mendalam OSN Geografi.</p>
+                </div>
+                <!-- Filter Bab -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 custom-scrollbar">
+                    <button onclick="filterMateri('all')" class="materi-filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white whitespace-nowrap">Semua Bab</button>
+                    <button onclick="filterMateri('fisik')" class="materi-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">Geografi Fisik</button>
+                    <button onclick="filterMateri('manusia')" class="materi-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">Geografi Manusia</button>
+                    <button onclick="filterMateri('teknis')" class="materi-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">Teknis & Pemetaan</button>
+                </div>
+            </div>
+
+            <!-- Content Grid / Accordion -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Sidebar Menu Bab -->
+                <div class="lg:col-span-4 space-y-3">
+                    <button onclick="selectMateriBab(1)" id="bab-btn-1" class="materi-bab-btn w-full text-left p-4 rounded-2xl border-2 border-blue-600 bg-blue-50/50 shadow-sm transition flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-200 text-blue-800">Bab 01 • Fisik</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Litosfer, Tektonisme & Geomorfologi</h4>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-blue-600 text-xs mt-1"></i>
+                    </button>
+
+                    <button onclick="selectMateriBab(2)" id="bab-btn-2" class="materi-bab-btn w-full text-left p-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 transition flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-100 text-sky-800">Bab 02 • Fisik</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Atmosfer, Klimatologi & Perubahan Iklim</h4>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs mt-1"></i>
+                    </button>
+
+                    <button onclick="selectMateriBab(3)" id="bab-btn-3" class="materi-bab-btn w-full text-left p-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 transition flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-teal-100 text-teal-800">Bab 03 • Fisik</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Hidrosfer, DAS & Oseanografi Tropis</h4>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs mt-1"></i>
+                    </button>
+
+                    <button onclick="selectMateriBab(4)" id="bab-btn-4" class="materi-bab-btn w-full text-left p-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 transition flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 text-amber-800">Bab 04 • Manusia</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Geografi Ekonomi, Industri & Lokasi</h4>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs mt-1"></i>
+                    </button>
+
+                    <button onclick="selectMateriBab(5)" id="bab-btn-5" class="materi-bab-btn w-full text-left p-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 transition flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-100 text-purple-800">Bab 05 • Teknis</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Kartografi, Penginderaan Jauh & SIG</h4>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs mt-1"></i>
+                    </button>
+
+                    <button onclick="selectMateriBab(6)" id="bab-btn-6" class="materi-bab-btn w-full text-left p-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 transition flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-100 text-rose-800">Bab 06 • Terapan</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Mitigasi Bencana & Pembangunan Berkelanjutan</h4>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs mt-1"></i>
+                    </button>
+                </div>
+
+                <!-- Display Panel Materi -->
+                <div class="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm min-h-[500px]">
+                    
+                    <!-- Detail Content Container -->
+                    <div id="materi-content-display" class="space-y-6">
+                        <!-- Default Content loaded via JS -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: LABORATORIUM VIRTUAL -->
+        <section id="section-lab" class="tab-content hidden space-y-8">
+            <!-- Lab Header -->
+            <div class="bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white p-8 rounded-3xl shadow-xl border border-emerald-800/40 relative overflow-hidden">
+                <div class="relative z-10 space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold uppercase">Virtual Geography Lab</span>
+                    <h2 class="text-3xl font-black">Laboratorium Virtual Interaktif OSN</h2>
+                    <p class="text-slate-300 text-sm max-w-2xl leading-relaxed">
+                        Eksperimenkan berbagai variabel fenomena geografi secara langsung! Ubah parameter, amati perubahan visual, dan analisis formulasi sainsnya secara terukur.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Lab Tool Selector Tabs -->
+            <div class="flex border-b border-slate-200 gap-2">
+                <button onclick="switchLabTool('topografi')" id="lab-tab-topografi" class="lab-tool-btn active px-5 py-3 font-bold text-sm border-b-2 border-emerald-600 text-emerald-700 flex items-center gap-2">
+                    <i class="fa-solid fa-mountain"></i> Profil Topografi & Kontur
+                </button>
+                <button onclick="switchLabTool('enso')" id="lab-tab-enso" class="lab-tool-btn px-5 py-3 font-semibold text-sm text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center gap-2">
+                    <i class="fa-solid fa-water"></i> Simulasi ENSO & Upwelling
+                </button>
+                <button onclick="switchLabTool('ndvi')" id="lab-tab-ndvi" class="lab-tool-btn px-5 py-3 font-semibold text-sm text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center gap-2">
+                    <i class="fa-solid fa-satellite"></i> Kalkulator Spektral NDVI
+                </button>
+            </div>
+
+            <!-- LAB TOOL 1: TOPOGRAFI -->
+            <div id="lab-tool-topografi" class="lab-panel space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Canvas Visualization -->
+                    <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-map text-emerald-600"></i> Peta Kontur & Garis Potong A - B
+                            </h4>
+                            <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">Skala Vertikal Exaggeration: 3x</span>
+                        </div>
+                        
+                        <!-- Topo Contour Canvas -->
+                        <div class="relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 h-64">
+                            <canvas id="topoCanvas" class="w-full h-full"></canvas>
+                        </div>
+
+                        <!-- Cross Section Elevation Profile Canvas -->
+                        <div class="space-y-2">
+                            <h5 class="text-xs font-bold uppercase text-slate-500">Profil Penampang Melintang (Cross-Section Profile)</h5>
+                            <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 h-44">
+                                <canvas id="profileCanvas" class="w-full h-full"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls & Calculations -->
+                    <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                        <h4 class="font-bold text-slate-900 text-base border-b border-slate-100 pb-3">Kontrol Lereng & Puncak</h4>
+
+                        <!-- Slider Controls -->
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                                    <span>Ketinggian Puncak Awal (m)</span>
+                                    <span id="val-peak1" class="text-emerald-600 font-bold">1200 m</span>
+                                </div>
+                                <input type="range" id="input-peak1" min="300" max="2500" value="1200" step="50" oninput="updateTopoLab()" class="w-full accent-emerald-600">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                                    <span>Ketinggian Lembah Tengah (m)</span>
+                                    <span id="val-valley" class="text-emerald-600 font-bold">200 m</span>
+                                </div>
+                                <input type="range" id="input-valley" min="0" max="1000" value="200" step="25" oninput="updateTopoLab()" class="w-full accent-emerald-600">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                                    <span>Ketinggian Puncak Kedua (m)</span>
+                                    <span id="val-peak2" class="text-emerald-600 font-bold">850 m</span>
+                                </div>
+                                <input type="range" id="input-peak2" min="200" max="2000" value="850" step="50" oninput="updateTopoLab()" class="w-full accent-emerald-600">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                                    <span>Jarak Horisontal Peta ($d$)</span>
+                                    <span id="val-distance" class="text-blue-600 font-bold">10 km</span>
+                                </div>
+                                <input type="range" id="input-distance" min="2" max="25" value="10" step="1" oninput="updateTopoLab()" class="w-full accent-blue-600">
+                            </div>
+                        </div>
+
+                        <!-- Realtime Calculations Output -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Hasil Kalkulasi Topografi:</h5>
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div class="bg-white p-3 rounded-lg border border-slate-100">
+                                    <span class="text-slate-500 block">Beda Tinggi ($\Delta h$)</span>
+                                    <span id="out-deltah" class="text-slate-900 font-bold text-sm">1000 m</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-100">
+                                    <span class="text-slate-500 block">Kemiringan Lereng ($\%$)</span>
+                                    <span id="out-slope" class="text-emerald-600 font-bold text-sm">10.0 %</span>
+                                </div>
+                            </div>
+                            <div class="text-[11px] text-slate-500 italic">
+                                Rumus: $\text{Kemiringan (\%)} = \left(\frac{\Delta h}{\text{Jarak Horisontal}}\right) \times 100\%$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAB TOOL 2: ENSO SIMULATOR -->
+            <div id="lab-tool-enso" class="lab-panel hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-water-lower text-blue-600"></i> Visualisasi Sirkulasi Pasifik Ekuatorial (Walker Cell & Termoklin)
+                            </h4>
+                            <span id="enso-phase-badge" class="text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-800">Fase Normal</span>
+                        </div>
+
+                        <!-- ENSO Canvas -->
+                        <div class="relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 h-80">
+                            <canvas id="ensoCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                        <h4 class="font-bold text-slate-900 text-base border-b border-slate-100 pb-3">Pilih Mode ENSO</h4>
+
+                        <div class="space-y-3">
+                            <button onclick="setEnsoMode('normal')" id="btn-enso-normal" class="w-full p-4 rounded-xl border-2 border-blue-600 bg-blue-50 text-left font-bold text-sm text-blue-900 transition flex items-center justify-between">
+                                <div>
+                                    <div>Fase Netral / Normal</div>
+                                    <p class="text-xs font-normal text-slate-600 mt-0.5">Angin pasat timuran normal, upwelling stabil di Peru.</p>
+                                </div>
+                                <i class="fa-solid fa-circle-dot text-blue-600"></i>
+                            </button>
+
+                            <button onclick="setEnsoMode('elnino')" id="btn-enso-elnino" class="w-full p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left font-bold text-sm text-slate-800 transition flex items-center justify-between">
+                                <div>
+                                    <div class="text-rose-600">Fase El Niño</div>
+                                    <p class="text-xs font-normal text-slate-600 mt-0.5">Angin pasat melemah, penumpukan air hangat ke timur.</p>
+                                </div>
+                                <i class="fa-solid fa-temperature-arrow-up text-rose-500"></i>
+                            </button>
+
+                            <button onclick="setEnsoMode('lanina')" id="btn-enso-lanina" class="w-full p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left font-bold text-sm text-slate-800 transition flex items-center justify-between">
+                                <div>
+                                    <div class="text-teal-600">Fase La Niña</div>
+                                    <p class="text-xs font-normal text-slate-600 mt-0.5">Angin pasat sangat kuat, upwelling intensif di timur.</p>
+                                </div>
+                                <i class="fa-solid fa-wind text-teal-500"></i>
+                            </button>
+                        </div>
+
+                        <!-- Indicator Card -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <h5 class="text-xs font-bold uppercase text-slate-700">Dampak Bagi Indonesia & Peru:</h5>
+                            <p id="enso-description-text" class="text-xs text-slate-600 leading-relaxed">
+                                Pada fase normal, angin pasat mendorong air hangat ke Pasifik Barat (Indonesia), memicu konveksi curah hujan tinggi, sementara di Peru terjadi Upwelling nutrisi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAB TOOL 3: NDVI CALCULATOR -->
+            <div id="lab-tool-ndvi" class="lab-panel hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                        <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-indigo-600"></i> Pengaturan Reflektansi Saluran Gelombang
+                        </h4>
+
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                                    <span>Near-Infrared (NIR) Band Reflektansi</span>
+                                    <span id="val-nir" class="text-indigo-600">0.70</span>
+                                </div>
+                                <input type="range" id="input-nir" min="0.05" max="0.95" value="0.70" step="0.01" oninput="updateNDVILab()" class="w-full accent-indigo-600">
+                                <p class="text-[11px] text-slate-500 mt-1">Struktur sel mesofil klorofil vegetasi sehat memantulkan gelombang NIR sangat tinggi.</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                                    <span>Red (Merah) Band Reflektansi</span>
+                                    <span id="val-red" class="text-rose-600">0.08</span>
+                                </div>
+                                <input type="range" id="input-red" min="0.02" max="0.80" value="0.08" step="0.01" oninput="updateNDVILab()" class="w-full accent-rose-600">
+                                <p class="text-[11px] text-slate-500 mt-1">Pigmen klorofil menyerap sebagian besar spektrum cahaya merah untuk fotosintesis.</p>
+                            </div>
+                        </div>
+
+                        <!-- Mathematical Formula Card -->
+                        <div class="p-4 rounded-xl bg-slate-900 text-white space-y-2">
+                            <div class="text-xs text-blue-400 font-mono font-bold">RUMUS NDVI:</div>
+                            <div class="text-center font-mono text-sm py-2 bg-slate-800 rounded-lg">
+                                $\text{NDVI} = \frac{\text{NIR} - \text{Red}}{\text{NIR} + \text{Red}}$
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm mb-4">Hasil Output Spektral & Status Vegetasi</h4>
+                            
+                            <!-- NDVI Gauge Display -->
+                            <div class="text-center p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="text-xs font-bold uppercase text-slate-500 tracking-wider">Nilai Indeks Vegetasi (NDVI)</div>
+                                <div id="out-ndvi-value" class="text-5xl font-black text-emerald-600">0.79</div>
+                                <div id="out-ndvi-status" class="inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 mt-2">
+                                    Vegetasi Sangat Lebat & Sehat
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Color Representation Bar -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-semibold text-slate-600">
+                                <span>-1.0 (Air)</span>
+                                <span>0.0 (Lahan Terbangun)</span>
+                                <span>1.0 (Hutan Hujan)</span>
+                            </div>
+                            <div class="h-4 rounded-full bg-gradient-to-r from-blue-600 via-amber-200 to-emerald-700 relative">
+                                <div id="ndvi-pointer" class="absolute top-0 -translate-x-1/2 w-3 h-full bg-slate-900 border-2 border-white rounded-full transition-all" style="left: 89.5%;"></div>
+                            </div>
+                        </div>
+
+                        <div id="ndvi-interpretation" class="text-xs text-slate-600 bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                            <strong>Interpretasi:</strong> Pantulan NIR yang sangat dominan dibandingkan serapan Red menandakan kerapatan tajuk kanopi vegetasi yang padat dan aktivitas fotosintesis optimal.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: LKPD (LEMBAR KERJA PESERTA DIDIK) -->
+        <section id="section-lkpd" class="tab-content hidden space-y-8">
+            <!-- LKPD Banner -->
+            <div class="bg-gradient-to-r from-amber-600 to-orange-700 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <span class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 text-xs font-bold uppercase">Worksheet OSN</span>
+                    <h2 class="text-3xl font-black">Lembar Kerja Peserta Didik (LKPD)</h2>
+                    <p class="text-amber-100 text-sm max-w-xl">
+                        Uji kemampuan analisis spasial kontekstual kamu dengan menyelesaikan studi kasus nyata berbasis keruangan di bawah ini.
+                    </p>
+                </div>
+                <button onclick="exportLKPDAnswers()" class="px-5 py-3 bg-white text-orange-800 hover:bg-amber-50 font-bold rounded-xl shadow-md transition flex items-center gap-2 text-sm whitespace-nowrap">
+                    <i class="fa-solid fa-download"></i> Simpan / Cetak Hasil Jawaban
+                </button>
+            </div>
+
+            <!-- Case Study 1 -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                    <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-black text-lg">01</span>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-lg">Studi Kasus 1: Analisis Keruangan Dampak Fenomena ENSO Terhadap Pertanian & Kelautan Indonesia</h3>
+                        <p class="text-xs text-slate-500">Kategorisasi: Klimatologi, Oseanografi & Geografi Ekonomi</p>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none text-xs sm:text-sm text-slate-600 leading-relaxed space-y-3">
+                    <p>
+                        Pada tahun 2023-2024, BMKG mencatat fenomena <strong>El Niño kuat</strong> berdampak pada penurunan curah hujan hingga 60% di wilayah Jawa, Bali, dan Nusa Tenggara. Hal ini memicu kegagalan panen padi secara masif sekaligus penggeseran musim tanam. Namun di sisi lain, sektor kelautan di sebelah selatan Jawa hingga barat Sumatra mencatatkan peningkatan produksi perikanan tangkap.
+                    </p>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Soal Analisis LKPD 1:</label>
+                    <p class="text-xs text-slate-600">Jelaskan mekanisme oseanografis mengapa El Niño justru dapat menguntungkan sektor perikanan di perairan Selatan Jawa, dan rumuskan 3 strategi mitigasi keruangan bagi petani padi!</p>
+                    <textarea id="lkpd-answer-1" rows="4" placeholder="Tuliskan analisis komprehensif kamu di sini..." class="w-full p-4 rounded-2xl border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-xs sm:text-sm text-slate-800 custom-scrollbar"></textarea>
+                </div>
+            </div>
+
+            <!-- Case Study 2 -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                    <span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-black text-lg">02</span>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-lg">Studi Kasus 2: Penentuan Lokasi Industri Semen (Teori Alfred Weber)</h3>
+                        <p class="text-xs text-slate-500">Kategorisasi: Geografi Ekonomi & Analisis Kuantitatif Lokasi</p>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none text-xs sm:text-sm text-slate-600 leading-relaxed space-y-3">
+                    <p>
+                        Sebuah perusahaan manufaktur berencana membangun pabrik semen baru. Bahan baku utama berupa batu kapur ($1.5 \text{ ton}$) dan tanah liat ($0.5 \text{ ton}$) diperlukan untuk menghasilkan $1 \text{ ton}$ produk semen jadi. Biaya angkut bahan baku adalah $\text{Rp } 2.500/\text{ton/km}$, sedangkan biaya angkut semen jadi ke pasar adalah $\text{Rp } 3.000/\text{ton/km}$.
+                    </p>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Soal Analisis LKPD 2:</label>
+                    <p class="text-xs text-slate-600">Hitunglah nilai Material Index ($MI$) pabrik semen tersebut! Berdasarkan nilai $MI$, di manakah lokasi industri yang paling efisien secara biaya (mendekati sumber bahan baku atau pasar)? Berikan alasan logisnya!</p>
+                    <textarea id="lkpd-answer-2" rows="4" placeholder="Tuliskan perhitungan dan analisis lokasi industri di sini..." class="w-full p-4 rounded-2xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm text-slate-800 custom-scrollbar"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: ASESMEN INTERAKTIF (25 SOAL) -->
+        <section id="section-asesmen" class="tab-content hidden space-y-8">
+            <!-- Quiz Header Bar -->
+            <div class="bg-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-400/30 text-xs font-bold uppercase">Simulasi Standar OSN-K / OSN-P</span>
+                        <span class="text-xs text-slate-400">25 Soal Pilihan Ganda HOTS</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black">Asesmen Uji Kemampuan Geografi</h2>
+                </div>
+
+                <!-- Timer & Controls -->
+                <div class="flex items-center gap-4 bg-slate-800 p-3 rounded-2xl border border-slate-700">
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Sisa Waktu:</span>
+                        <span id="quiz-timer-display" class="font-mono text-xl font-bold text-amber-400">45:00</span>
+                    </div>
+                    <button onclick="toggleQuizTimer()" id="btn-toggle-timer" class="p-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl text-white transition">
+                        <i class="fa-solid fa-pause"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Layout Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Question Number Navigation Grid (Sidebar) -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                            <h4 class="font-bold text-slate-900 text-sm">Navigasi Soal</h4>
+                            <span id="answered-count-badge" class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">0/25 Terjawab</span>
+                        </div>
+
+                        <!-- 25 Grid Buttons -->
+                        <div id="quiz-grid-container" class="grid grid-cols-5 gap-2.5">
+                            <!-- Generated by JS -->
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-blue-600 inline-block"></span> Aktif</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span> Dijawab</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block"></span> Belum</span>
+                        </div>
+
+                        <button onclick="submitQuiz()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-paper-plane"></i> Selesaikan & Lihat Nilai
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question View Box -->
+                <div class="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm min-h-[450px] flex flex-col justify-between">
+                    
+                    <div class="space-y-6">
+                        <!-- Question Meta Header -->
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <span id="question-number-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                                Soal No. 1 dari 25
+                            </span>
+                            <span id="question-category-tag" class="text-xs font-semibold text-slate-500">
+                                Domain: Oseanografi & Iklim
+                            </span>
+                        </div>
+
+                        <!-- Question Prompt Text -->
+                        <div id="question-text-container" class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                            <!-- JS Inject -->
+                        </div>
+
+                        <!-- Options List -->
+                        <div id="question-options-container" class="space-y-3 pt-2">
+                            <!-- JS Inject -->
+                        </div>
+                    </div>
+
+                    <!-- Next/Prev Buttons -->
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-6 mt-6">
+                        <button onclick="navigateQuiz(-1)" id="btn-quiz-prev" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold hover:bg-slate-100 text-xs sm:text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i> Soal Sebelumnya
+                        </button>
+                        <button onclick="navigateQuiz(1)" id="btn-quiz-next" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2">
+                            Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Quiz Result Modal / Section (Hidden until submitted) -->
+            <div id="quiz-result-card" class="hidden bg-white p-8 rounded-3xl border border-slate-200 shadow-2xl space-y-6">
+                <div class="text-center space-y-3 border-b border-slate-100 pb-6">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl mx-auto flex items-center justify-center text-3xl font-black">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900">Hasil Evaluasi Asesmen OSN</h3>
+                    <p class="text-xs text-slate-500">LBB Kelas Pintar Orion • Analisis Skor Komprehensif</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-center border border-blue-100">
+                        <span class="text-xs font-bold text-blue-600 block uppercase">Skor Akhir</span>
+                        <span id="res-score" class="text-4xl font-black text-blue-900">84 / 100</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-emerald-50 text-center border border-emerald-100">
+                        <span class="text-xs font-bold text-emerald-600 block uppercase">Jawaban Benar</span>
+                        <span id="res-correct" class="text-4xl font-black text-emerald-900">21 / 25</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-amber-50 text-center border border-amber-100">
+                        <span class="text-xs font-bold text-amber-600 block uppercase">Predikat Orion</span>
+                        <span id="res-predicate" class="text-2xl font-black text-amber-800 mt-2 block">Medali Emas</span>
+                    </div>
+                </div>
+
+                <!-- Explanation Review Section -->
+                <div class="space-y-4 pt-4">
+                    <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-file-lines text-blue-600"></i> Pembahasan Lengkap 25 Soal
+                    </h4>
+                    <div id="quiz-review-container" class="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- JS Review List Inject -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-8 mt-12 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                    O
+                </div>
+                <div>
+                    <p class="font-bold text-white">LBB KELAS PINTAR ORION</p>
+                    <p class="text-[11px] text-slate-500">Pusat Pembinaan Olimpiade Sains Nasional Berkelanjutan</p>
+                </div>
+            </div>
+            <p class="text-center sm:text-right text-slate-500">
+                &copy; 2026 Tim Penyusun LBB Kelas Pintar Orion. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // GLOBAL STATE MANAGEMENT
+        // ==========================================
+        let currentTab = 'pendahuluan';
+        let currentMateriBab = 1;
+        let currentLabTool = 'topografi';
+
+        // ==========================================
+        // TAB SWITCHING LOGIC
+        // ==========================================
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'text-white'));
+
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Trigger canvas resize if switching to lab tab
+            if (tabId === 'lab') {
+                setTimeout(() => {
+                    renderTopoLab();
+                    renderEnsoLab();
+                    updateNDVILab();
+                }, 100);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // ==========================================
+        // BAB MATERI DATA & DISPLAY ENGINE
+        // ==========================================
+        const materiData = {
+            1: {
+                title: "Bab 01: Litosfer, Tektonisme & Geomorfologi",
+                badge: "Geografi Fisik",
+                badgeColor: "bg-blue-100 text-blue-800",
+                content: `
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                            <h4 class="font-bold text-blue-900 text-base mb-2"><i class="fa-solid fa-volcano mr-2"></i>1. Batas Lempeng Tektonik & Landform</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Interaksi lempeng tektonik terbagi menjadi tiga utama: <strong>Konvergen</strong> (subduksi memicu palung laut dan busur gunung api vulkanik; kolisi memicu pegunungan lipatan seperti Himalaya), <strong>Divergen</strong> (pematang tengah samudera/Mid-Ocean Ridge & rift valley), serta <strong>Transform</strong> (patahan geser San Andreas).
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 text-sm">2. Pelarutan Karst (Karstifikasi)</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Bentuk lahan karst terbentuk akibat pelarutan batuan gamping ($\text{CaCO}_3$) oleh air hujan asam ($\text{H}_2\text{CO}_3$). Hierarki erosi/pelarutan karst dari terkecil hingga terbesar: 
+                                <span class="font-semibold text-emerald-600">Dolina &rarr; Uvala &rarr; Polje</span>. Polje merupakan cekungan karst raksasa dengan dasar rata yang sering dialiri sungai bawah tanah.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                            <h5 class="font-bold text-slate-800 text-xs uppercase mb-2">Seri Reaksi Bowen (Bowen's Reaction Series)</h5>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Mineral yang mengkristal paling awal pada suhu tinggi (contoh: <strong>Olivin</strong>) paling tidak stabil di permukaan bumi dan paling cepat mengalami pelapukan kimiawi. Sebaliknya, <strong>Kuarsa</strong> yang mengkristal terakhir pada suhu rendah sangat resisten terhadap pelapukan.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            2: {
+                title: "Bab 02: Atmosfer, Klimatologi & Perubahan Iklim",
+                badge: "Geografi Fisik",
+                badgeColor: "bg-sky-100 text-sky-800",
+                content: `
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl bg-sky-50 border border-sky-100">
+                            <h4 class="font-bold text-sky-900 text-base mb-2"><i class="fa-solid fa-cloud-sun-rain mr-2"></i>1. Sirkulasi Atmosfer Global & Sel Hadley</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Pemanasan maksimum di ekuator memicu konveksi udara naik (ITCZ) membentuk daerah bertekana rendah (Doldrums). Udara membumbung lalu mengalir ke lintang $30^\circ$ N/S dan turun (subsiden) membentuk daerah subtropis bertekanan tinggi. Inilah yang menyebabkan sebaran gurun pasir utama dunia terkonsentrasi di lintang subtropis $20^\circ - 30^\circ$.
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 text-sm">2. Klasifikasi Iklim Köppen</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Sistem Köppen membagi iklim dunia menjadi 5 kelompok utama:
+                                <ul class="list-disc pl-5 space-y-1 text-xs text-slate-600 mt-2">
+                                    <li><strong>A (Tropis):</strong> Suhu bulan terdingin $> 18^\circ\text{C}$.</li>
+                                    <li><strong>B (Kering/Arid):</strong> Evapotranspirasi melebihi presipitasi.</li>
+                                    <li><strong>C (Sedang/Mesotermal):</strong> Suhu bulan terdingin antara $-3^\circ\text{C}$ hingga $18^\circ\text{C}$.</li>
+                                    <li><strong>D (Mikrotermal/Boreal):</strong> Suhu bulan terdingin $< -3^\circ\text{C}$ dan bulan terpanas $> 10^\circ\text{C}$.</li>
+                                    <li><strong>E (Kutub):</strong> Suhu bulan terpanas $< 10^\circ\text{C}$.</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            3: {
+                title: "Bab 03: Hidrosfer, DAS & Oseanografi Tropis",
+                badge: "Geografi Fisik",
+                badgeColor: "bg-teal-100 text-teal-800",
+                content: `
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl bg-teal-50 border border-teal-100">
+                            <h4 class="font-bold text-teal-900 text-base mb-2"><i class="fa-solid fa-water mr-2"></i>1. Fenomena Upwelling & Sirkulasi Termohalin</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <strong>Upwelling</strong> adalah proses terdorongnya air laut dingin bermassa jenis tinggi dan kaya nutrisi (nitrat & fosfat) dari lapisan dalam menuju permukaan laut akibat Transpor Ekman. Hal ini memicu peledakan fitoplankton dan meningkatkan produktivitas perikanan.
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 text-sm">2. Kurva Infiltrasi Horton</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Laju infiltrasi air ke dalam tanah saat terjadi hujan awal berlangsung sangat tinggi ($f_0$), lalu menurun secara eksponensial seiring bertambahnya kejenuhan pori tanah hingga mencapai kapasitas infiltrasi konstan ($f_c$).
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            4: {
+                title: "Bab 04: Geografi Ekonomi, Industri & Lokasi",
+                badge: "Geografi Manusia",
+                badgeColor: "bg-amber-100 text-amber-800",
+                content: `
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-100">
+                            <h4 class="font-bold text-amber-900 text-base mb-2"><i class="fa-solid fa-industry mr-2"></i>1. Teori Lokasi Industri Alfred Weber</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Weber menekankan minimasi biaya transportasi berdasarkan Indeks Material ($MI$):
+                                <div class="my-2 p-2 bg-white rounded font-mono text-xs border border-amber-200">
+                                    $$MI = \frac{\text{Bobot Bahan Baku Lokal}}{\text{Bobot Produk Jadi}}$$
+                                </div>
+                                Jika $MI > 1$ (Weight-Losing Industry, contoh: industri semen), lokasi pabrik mendekati <strong>sumber bahan baku</strong>. Jika $MI < 1$ (Weight-Gaining Industry, contoh: pabrik minuman bersoda), lokasi pabrik mendekati <strong>pasar</strong>.
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 text-sm">2. Teori Tempat Sentral Christaller</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Hirarki pusat pelayanan berdasarkan asas pembagian wilayah:
+                                <ul class="list-disc pl-5 space-y-1 text-xs text-slate-600 mt-1">
+                                    <li><strong>K = 3:</strong> Asas Pasar (Pemasaran optimal).</li>
+                                    <li><strong>K = 4:</strong> Asas Lalu Lintas (Transportasi efisien).</li>
+                                    <li><strong>K = 7:</strong> Asas Administratif (Pemerintahan).</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            5: {
+                title: "Bab 05: Kartografi, Penginderaan Jauh & SIG",
+                badge: "Teknis & Pemetaan",
+                badgeColor: "bg-purple-100 text-purple-800",
+                content: `
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl bg-purple-50 border border-purple-100">
+                            <h4 class="font-bold text-purple-900 text-base mb-2"><i class="fa-solid fa-satellite mr-2"></i>1. Indeks Vegetasi NDVI</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                NDVI ($Normalized\ Difference\ Vegetation\ Index$) mengukur kesehatan klorofil vegetasi memanfaatkan kontras tinggi antara serapan spektrum Merah ($Red$) dan pemantulan spektrum Infra Merah Dekat ($Near\ Infrared / NIR$). Nilai NDVI berkisar antara $-1.0$ hingga $+1.0$.
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 text-sm">2. 4 Jenis Resolusi Penginderaan Jauh</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-600">
+                                <li><strong>Resolusi Spasial:</strong> Ukuran pixel terkecl di permukaan bumi (contoh: Sentinel-2 = 10m).</li>
+                                <li><strong>Resolusi Spektral:</strong> Banyaknya jumlah band/saluran gelombang elektromagnetik.</li>
+                                <li><strong>Resolusi Temporal:</strong> Frekuensi perekaman ulang area yang sama.</li>
+                                <li><strong>Resolusi Radiometrik:</strong> Sensitivitas sensor dalam membedakan gradasi warna/bit depth (8-bit vs 12-bit).</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            6: {
+                title: "Bab 06: Mitigasi Bencana & Pembangunan Berkelanjutan",
+                badge: "Terapan & Kebencanaan",
+                badgeColor: "bg-rose-100 text-rose-800",
+                content: `
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-100">
+                            <h4 class="font-bold text-rose-900 text-base mb-2"><i class="fa-solid fa-shield-halved mr-2"></i>1. Manajemen Risiko Bencana Spasial</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Formulasi risiko bencana ($Risk$) dirumuskan sebagai:
+                                <div class="my-2 p-2 bg-white rounded font-mono text-xs border border-rose-200">
+                                    $$Risk = \frac{Hazard \times Vulnerability}{Capacity}$$
+                                </div>
+                                Risiko bencana dapat diturunkan dengan mengurangi kerentanan ($Vulnerability$) dan meningkatkan kapasitas ($Capacity$) masyarakat.
+                            </p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function selectMateriBab(babNum) {
+            currentMateriBab = babNum;
+            document.querySelectorAll('.materi-bab-btn').forEach(btn => {
+                btn.classList.remove('border-blue-600', 'bg-blue-50/50');
+                btn.classList.add('border-slate-200', 'bg-white');
+            });
+
+            const activeBtn = document.getElementById(`bab-btn-${babNum}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-slate-200', 'bg-white');
+                activeBtn.classList.add('border-blue-600', 'bg-blue-50/50');
+            }
+
+            const display = document.getElementById('materi-content-display');
+            const data = materiData[babNum];
+            display.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase px-3 py-1 rounded-full ${data.badgeColor}">${data.badge}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">${data.title}</h3>
+                    <div>${data.content}</div>
+                </div>
+            `;
+        }
+
+        function filterMateri(type) {
+            document.querySelectorAll('.materi-filter-btn').forEach(b => {
+                b.classList.remove('active', 'bg-blue-600', 'text-white');
+                b.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            event.target.classList.add('active', 'bg-blue-600', 'text-white');
+            event.target.classList.remove('bg-slate-100', 'text-slate-600');
+        }
+
+        // ==========================================
+        // VIRTUAL LAB ENGINE & CANVASES
+        // ==========================================
+        function switchLabTool(tool) {
+            currentLabTool = tool;
+            document.querySelectorAll('.lab-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.lab-tool-btn').forEach(b => {
+                b.classList.remove('active', 'border-emerald-600', 'text-emerald-700');
+                b.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            document.getElementById(`lab-tool-${tool}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`lab-tab-${tool}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-emerald-600', 'text-emerald-700');
+            }
+
+            if (tool === 'topografi') renderTopoLab();
+            if (tool === 'enso') renderEnsoLab();
+            if (tool === 'ndvi') updateNDVILab();
+        }
+
+        // --- LAB 1: TOPOGRAFI SIMULATOR ---
+        function updateTopoLab() {
+            const p1 = parseInt(document.getElementById('input-peak1').value);
+            const val = parseInt(document.getElementById('input-valley').value);
+            const p2 = parseInt(document.getElementById('input-peak2').value);
+            const dist = parseInt(document.getElementById('input-distance').value);
+
+            document.getElementById('val-peak1').innerText = `${p1} m`;
+            document.getElementById('val-valley').innerText = `${val} m`;
+            document.getElementById('val-peak2').innerText = `${p2} m`;
+            document.getElementById('val-distance').innerText = `${dist} km`;
+
+            const deltaH = Math.abs(p1 - val);
+            const slope = ((deltaH / (dist * 1000)) * 100).toFixed(1);
+
+            document.getElementById('out-deltah').innerText = `${deltaH} m`;
+            document.getElementById('out-slope').innerText = `${slope} %`;
+
+            renderTopoLab();
+        }
+
+        function renderTopoLab() {
+            const topoCanvas = document.getElementById('topoCanvas');
+            const profileCanvas = document.getElementById('profileCanvas');
+            if (!topoCanvas || !profileCanvas) return;
+
+            const ctxT = topoCanvas.getContext('2d');
+            const ctxP = profileCanvas.getContext('2d');
+
+            topoCanvas.width = topoCanvas.clientWidth;
+            topoCanvas.height = topoCanvas.clientHeight;
+            profileCanvas.width = profileCanvas.clientWidth;
+            profileCanvas.height = profileCanvas.clientHeight;
+
+            const w = topoCanvas.width;
+            const h = topoCanvas.height;
+
+            // Draw Contour Map Simulation
+            ctxT.clearRect(0, 0, w, h);
+            ctxT.fillStyle = '#0f172a';
+            ctxT.fillRect(0, 0, w, h);
+
+            // Draw Contour Concentric Circles
+            const p1 = parseInt(document.getElementById('input-peak1').value);
+            const numRings1 = Math.floor(p1 / 250);
+            for (let i = 1; i <= numRings1; i++) {
+                ctxT.beginPath();
+                ctxT.arc(w * 0.3, h * 0.5, i * 18, 0, Math.PI * 2);
+                ctxT.strokeStyle = i % 2 === 0 ? '#10b981' : '#047857';
+                ctxT.lineWidth = i % 2 === 0 ? 2 : 1;
+                ctxT.stroke();
+            }
+
+            const p2 = parseInt(document.getElementById('input-peak2').value);
+            const numRings2 = Math.floor(p2 / 250);
+            for (let i = 1; i <= numRings2; i++) {
+                ctxT.beginPath();
+                ctxT.arc(w * 0.7, h * 0.5, i * 14, 0, Math.PI * 2);
+                ctxT.strokeStyle = '#059669';
+                ctxT.lineWidth = 1.5;
+                ctxT.stroke();
+            }
+
+            // Draw Section Line A-B
+            ctxT.beginPath();
+            ctxT.moveTo(w * 0.1, h * 0.5);
+            ctxT.lineTo(w * 0.9, h * 0.5);
+            ctxT.strokeStyle = '#f59e0b';
+            ctxT.lineWidth = 3;
+            ctxT.setLineDash([6, 4]);
+            ctxT.stroke();
+            ctxT.setLineDash([]);
+
+            ctxT.fillStyle = '#f59e0b';
+            ctxT.font = 'bold 12px sans-serif';
+            ctxT.fillText('A', w * 0.08, h * 0.5 + 4);
+            ctxT.fillText('B', w * 0.92, h * 0.5 + 4);
+
+            // Draw Profile Canvas
+            const pw = profileCanvas.width;
+            const ph = profileCanvas.height;
+            ctxP.clearRect(0, 0, pw, ph);
+
+            const valley = parseInt(document.getElementById('input-valley').value);
+
+            ctxP.beginPath();
+            ctxP.moveTo(pw * 0.1, ph - 20);
+            ctxP.quadraticCurveTo(pw * 0.3, ph - 20 - (p1 / 2500) * (ph - 40), pw * 0.5, ph - 20 - (valley / 2500) * (ph - 40));
+            ctxP.quadraticCurveTo(pw * 0.7, ph - 20 - (p2 / 2500) * (ph - 40), pw * 0.9, ph - 20);
+
+            ctxP.lineTo(pw * 0.9, ph - 20);
+            ctxP.lineTo(pw * 0.1, ph - 20);
+            ctxP.closePath();
+
+            const grad = ctxP.createLinearGradient(0, 0, 0, ph);
+            grad.addColorStop(0, '#10b981');
+            grad.addColorStop(1, '#064e3b');
+            ctxP.fillStyle = grad;
+            ctxP.fill();
+
+            ctxP.strokeStyle = '#34d399';
+            ctxP.lineWidth = 2;
+            ctxP.stroke();
+        }
+
+        // --- LAB 2: ENSO SIMULATOR ---
+        let currentEnsoMode = 'normal';
+        function setEnsoMode(mode) {
+            currentEnsoMode = mode;
+            document.querySelectorAll('#lab-tool-enso button').forEach(b => {
+                b.classList.remove('border-blue-600', 'bg-blue-50');
+                b.classList.add('border-slate-200', 'bg-white');
+            });
+
+            const activeBtn = document.getElementById(`btn-enso-${mode}`);
+            if (activeBtn) activeBtn.classList.add('border-blue-600', 'bg-blue-50');
+
+            const badge = document.getElementById('enso-phase-badge');
+            const desc = document.getElementById('enso-description-text');
+
+            if (mode === 'normal') {
+                badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-800";
+                badge.innerText = "Fase Netral / Normal";
+                desc.innerText = "Angin pasat timuran mendorong air hangat ke Pasifik Barat (Indonesia), memicu pembentukan awan konvektif dan hujan intens. Di pantai Peru terjadi Upwelling nutrisi.";
+            } else if (mode === 'elnino') {
+                badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-rose-100 text-rose-800";
+                badge.innerText = "Fase El Niño";
+                desc.innerText = "Angin pasat melemah. Air laut hangat bergeser ke Pasifik Tengah/Timur. Indonesia mengalami kekeringan parah (kemarau panjang), sementara Peru mengalami banjir hujan & penurunan ikan.";
+            } else if (mode === 'lanina') {
+                badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-teal-100 text-teal-800";
+                badge.innerText = "Fase La Niña";
+                desc.innerText = "Angin pasat timuran menguat ekstrem. Penumpukan air hangat di Indonesia memicu banjir bandang, sementara perairan Peru mengalami Upwelling sangat kuat.";
+            }
+
+            renderEnsoLab();
+        }
+
+        function renderEnsoLab() {
+            const canvas = document.getElementById('ensoCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw Ocean Water Box
+            ctx.fillStyle = '#0284c7';
+            ctx.fillRect(0, h * 0.4, w, h * 0.6);
+
+            // Warm Pool Layer (Reddish/Orange)
+            let warmWidth = w * 0.5;
+            let warmLeft = 0;
+            if (currentEnsoMode === 'elnino') {
+                warmWidth = w * 0.7;
+                warmLeft = w * 0.2;
+            } else if (currentEnsoMode === 'lanina') {
+                warmWidth = w * 0.4;
+                warmLeft = 0;
+            }
+
+            const warmGrad = ctx.createLinearGradient(warmLeft, 0, warmLeft + warmWidth, 0);
+            warmGrad.addColorStop(0, '#ef4444');
+            warmGrad.addColorStop(1, '#f97316');
+            ctx.fillStyle = warmGrad;
+            ctx.fillRect(warmLeft, h * 0.4, warmWidth, h * 0.15);
+
+            // Text Labels
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('BARAT (Indonesia)', 20, 30);
+            ctx.fillText('TIMUR (Peru)', w - 120, 30);
+
+            // Thermocline Slope Line
+            ctx.beginPath();
+            if (currentEnsoMode === 'normal') {
+                ctx.moveTo(0, h * 0.7);
+                ctx.lineTo(w, h * 0.5);
+            } else if (currentEnsoMode === 'elnino') {
+                ctx.moveTo(0, h * 0.55);
+                ctx.lineTo(w, h * 0.6);
+            } else {
+                ctx.moveTo(0, h * 0.8);
+                ctx.lineTo(w, h * 0.45);
+            }
+            ctx.strokeStyle = '#fde047';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.fillText('Garismuka Termoklin', w * 0.4, h * 0.85);
+        }
+
+        // --- LAB 3: NDVI CALCULATOR ---
+        function updateNDVILab() {
+            const nir = parseFloat(document.getElementById('input-nir').value);
+            const red = parseFloat(document.getElementById('input-red').value);
+
+            document.getElementById('val-nir').innerText = nir.toFixed(2);
+            document.getElementById('val-red').innerText = red.toFixed(2);
+
+            const ndvi = (nir - red) / (nir + red);
+            const ndviFixed = ndvi.toFixed(2);
+
+            document.getElementById('out-ndvi-value').innerText = ndviFixed;
+
+            const statusBadge = document.getElementById('out-ndvi-status');
+            const pointer = document.getElementById('ndvi-pointer');
+
+            // Set Pointer Position (-1 to +1 mapped to 0% to 100%)
+            const percent = ((ndvi + 1) / 2) * 100;
+            if (pointer) pointer.style.left = `${percent}%`;
+
+            if (ndvi >= 0.5) {
+                statusBadge.className = "inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 mt-2";
+                statusBadge.innerText = "Vegetasi Sangat Lebat & Sehat";
+            } else if (ndvi >= 0.2) {
+                statusBadge.className = "inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-lime-100 text-lime-800 mt-2";
+                statusBadge.innerText = "Vegetasi Jarang / Semak";
+            } else if (ndvi >= 0) {
+                statusBadge.className = "inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 mt-2";
+                statusBadge.innerText = "Lahan Terbuka / Batuan";
+            } else {
+                statusBadge.className = "inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 mt-2";
+                statusBadge.innerText = "Tubuh Air / Awan / Salju";
+            }
+        }
+
+        // ==========================================
+        // LKPD EXPORT FUNCTIONALITY
+        // ==========================================
+        function exportLKPDAnswers() {
+            const ans1 = document.getElementById('lkpd-answer-1').value;
+            const ans2 = document.getElementById('lkpd-answer-2').value;
+
+            if (!ans1 && !ans2) {
+                alert("Silakan isi setidaknya satu jawaban studi kasus LKPD terlebih dahulu!");
+                return;
+            }
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Hasil Lembar Kerja Peserta Didik (LKPD) OSN Geografi</title>
+                    <style>
+                        body { font-family: sans-serif; padding: 30px; color: #1e293b; line-height: 1.6; }
+                        h1 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+                        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; }
+                        .title { font-weight: bold; color: #0f172a; margin-bottom: 8px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Lembar Kerja Peserta Didik - LBB Kelas Pintar Orion</h1>
+                    <p><strong>Mata Pelajaran:</strong> OSN Geografi SMA</p>
+                    <p><strong>Tanggal Diselesaikan:</strong> ${new Date().toLocaleDateString('id-ID')}</p>
+                    <hr/>
+                    <div class="section">
+                        <div class="title">Studi Kasus 1: Dampak ENSO terhadap Pertanian & Kelautan</div>
+                        <p>${ans1 || 'Belum diisi.'}</p>
+                    </div>
+                    <div class="section">
+                        <div class="title">Studi Kasus 2: Lokasi Industri Semen (Alfred Weber)</div>
+                        <p>${ans2 || 'Belum diisi.'}</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // ==========================================
+        // 25 ASESMEN QUESTIONS DATA
+        // ==========================================
+        const quizQuestions = [
+            {
+                q: "Fenomena El Niño Southern Oscillation (ENSO) fase El Niño ditandai dengan melemahnya angin pasat timuran di Samudra Pasifik ekuatorial. Dampak oseanografis langsung dari fenomena ini di perairan barat Amerika Selatan (Peru) adalah...",
+                options: [
+                    "Terhentinya proses upwelling dan penurunan produktivitas perikanan.",
+                    "Peningkatan curah hujan dan penguatan arus Humboldt.",
+                    "Penurunan suhu permukaan laut secara drastis.",
+                    "Peningkatan kadar garam (salinitas) air laut permukaan.",
+                    "Terbentuknya badai siklon tropis secara kontinu."
+                ],
+                answer: 0,
+                domain: "Oseanografi",
+                explain: "Melemahnya angin pasat menyebabkan lapisan air hangat bergeser ke timur menuju Peru, menekan garismuka termoklin ke bawah sehingga terhentinya upwelling air dingin kaya nutrisi."
+            },
+            {
+                q: "Sebuah wilayah karst mengalami proses pelarutan batuan kapur secara intensif oleh air hujan yang bersifat asam lemah (H2CO3). Bentuk lahan hasil erosi/pelarutan vertikal yang membentang luas menyerupai cekungan tertutup berukuran besar dengan dasar rata dinamakan...",
+                options: [
+                    "Dolina",
+                    "Uvala",
+                    "Polje",
+                    "Stalagmiter",
+                    "Ponor"
+                ],
+                answer: 2,
+                domain: "Geomorfologi Karst",
+                explain: "Polje adalah cekungan karst terbesar berbentuk depressed floor yang luas berdasar rata, hasil gabungan beberapa uvala."
+            },
+            {
+                q: "Berdasarkan Klasifikasi Iklim Köppen, suatu wilayah yang memiliki suhu rata-rata bulan terdingin di bawah -3°C dan suhu bulan terpanas melebihi 10°C dikategorikan ke dalam kelompok iklim...",
+                options: [
+                    "Iklim A (Tropis)",
+                    "Iklim B (Kering)",
+                    "Iklim C (Sedang)",
+                    "Iklim D (Mikrotermal / Boreal)",
+                    "Iklim E (Kutub)"
+                ],
+                answer: 3,
+                domain: "Klimatologi",
+                explain: "Kelompok D (Mikrotermal) ditandai oleh bulan terdingin di bawah -3°C dan setidaknya satu bulan terpanas di atas 10°C."
+            },
+            {
+                q: "Dalam teori lokasi industri Alfred Weber, faktor utama yang menentukan lokasi industri optimal adalah minimasi biaya transportasi. Jika nilai Material Index (MI) dari suatu proses produksi bernilai lebih besar dari 1 (MI > 1), maka lokasi industri paling efisien bertempat di...",
+                options: [
+                    "Kawasan dekat sumber bahan baku.",
+                    "Kawasan dekat pasar / konsumen.",
+                    "Titik tengah antara pasar dan bahan baku.",
+                    "Kawasan bebas pajak (free trade zone).",
+                    "Kawasan dengan upah buruh terluas."
+                ],
+                answer: 0,
+                domain: "Geografi Ekonomi",
+                explain: "Jika MI > 1, bobot bahan baku lebih berat daripada produk jadi (weight-losing industry), sehingga industri berlokasi dekat bahan baku untuk meminimalkan ongkos angkut."
+            },
+            {
+                q: "Model Tempat Sentral (Central Place Theory) oleh Walter Christaller menjelaskan susunan keruangan permukiman. Hierarki tempat sentral dengan asas lalu lintas yang meminimalkan jarak tempuh antar pusat dinamakan prinsip...",
+                options: [
+                    "K = 3",
+                    "K = 4",
+                    "K = 7",
+                    "K = 9",
+                    "K = 12"
+                ],
+                answer: 1,
+                domain: "Geografi Perkotaan",
+                explain: "Prinsip K=4 adalah asas transportasi/lalu lintas di mana pusat pelayanan melayani 1/2 dari area tetangganya."
+            },
+            {
+                q: "Pada analisis Penginderaan Jauh, Indeks Vegetasi Terdistribusi Normal (NDVI) dihitung menggunakan kombinasi saluran gelombang elektromagnetik. Saluran yang dimanfaatkan beserta respons spektral vegetasi sehat adalah...",
+                options: [
+                    "Reflektansi tinggi pada Near-Infrared dan serapan tinggi pada Red.",
+                    "Reflektansi tinggi pada Red dan serapan tinggi pada Blue.",
+                    "Reflektansi tinggi pada Thermal dan serapan pada SWIR.",
+                    "Serapan penuh pada NIR dan pemantulan pada Red.",
+                    "Reflektansi seragam pada spektrum tampak."
+                ],
+                answer: 0,
+                domain: "Penginderaan Jauh",
+                explain: "Klorofil vegetasi menyerap cahaya Merah (Red) untuk fotosintesis dan memantulkan kuat gelombang Infra Merah Dekat (NIR)."
+            },
+            {
+                q: "Kondisi struktur kependudukan yang memicu munculnya fenomena Bonus Demografi pada suatu negara adalah...",
+                options: [
+                    "Rasio ketergantungan (dependency ratio) mencapai titik terendah.",
+                    "Jumlah penduduk usia lanjut (65+) melebihi usia muda.",
+                    "Tingkat kelahiran kasar (CBR) meningkat drastis.",
+                    "Jumlah angkatan kerja menurun signifikan.",
+                    "Tingkat migrasi keluar netral."
+                ],
+                answer: 0,
+                domain: "Demografi",
+                explain: "Bonus demografi terjadi saat proporsi usia produktif (15-64 tahun) mendominasi sehingga angka beban ketergantungan berada di titik terendah (< 50)."
+            },
+            {
+                q: "Proses pembentukan struktur pegunungan lipatan raksasa seperti Pegunungan Himalaya terjadi akibat interaksi batas lempeng tektonik jenis...",
+                options: [
+                    "Konvergen kolisi kontinental-kontinental.",
+                    "Konvergen subduksi samudera-kontinental.",
+                    "Divergen pematang samudera.",
+                    "Transform fault geser mendatar.",
+                    "Batas lempeng pasif pasifik."
+                ],
+                answer: 0,
+                domain: "Geologi Tektonik",
+                explain: "Himalaya terbentuk dari tumbukan (kolisi) dua lempeng benua: Lempeng India dan Lempeng Eurasia."
+            },
+            {
+                q: "Menurut persamaan infiltrasi Horton, laju infiltrasi air ke dalam tanah seiring bertambahnya durasi hujan akan...",
+                options: [
+                    "Menurun secara eksponensial hingga mencapai kapasitas konstan.",
+                    "Meningkat secara linear tanpa batas.",
+                    "Tetap konstan dari awal hingga akhir hujan.",
+                    "Meningkat pada awalnya lalu turun mendadak ke nol.",
+                    "Berfluktuasi mengikuti siklus pasang surut."
+                ],
+                answer: 0,
+                domain: "Hidrologi",
+                explain: "Laju infiltrasi diawali sangat tinggi ($f_0$) kemudian menurun eksponensial seiring penjenuhan pori tanah hingga mencapai konstan ($f_c$)."
+            },
+            {
+                q: "Pola permukiman penduduk yang terbentuk menyusuri sepanjang garis pantai, aliran sungai, atau jalur jalan raya dikategorikan sebagai pola...",
+                options: [
+                    "Linier / Memanjang",
+                    "Memusat / Nucleated",
+                    "Mensebar / Dispersed",
+                    "Radial sentrifugal",
+                    "Radial sentripetal"
+                ],
+                answer: 0,
+                domain: "Geografi Permukiman",
+                explain: "Pola linier/memanjang mengikuti bentukan garis alami (sungai, pantai) atau buatan manusia (jalan raya)."
+            },
+            {
+                q: "Pada Seri Reaksi Bowen, mineral silikat yang mengkristal paling awal pada suhu paling tinggi dan paling rentan terhadap pelapukan kimiawi adalah...",
+                options: [
+                    "Olivin",
+                    "Kuarsa",
+                    "Biotit",
+                    "Muskovit",
+                    "Ortoklas"
+                ],
+                answer: 0,
+                domain: "Geologi Mineral",
+                explain: "Olivin mengkristal pada suhu tertinggi (~1200°C) sehingga paling tidak stabil pada kondisi suhu/tekanan permukaan bumi."
+            },
+            {
+                q: "Gaya Coriolis yang membelokkan arah angin ke kanan di Belahan Bumi Utara (BBU) dan ke kiri di Belahan Bumi Selatan (BBS) bernilai NOL pada lokasi...",
+                options: [
+                    "Garis Khatulistiwa (Ekuator)",
+                    "Kutub Utara",
+                    "Kutub Selatan",
+                    "Garis Lintang Subtropis 30°",
+                    "Lingkaran Arktik 66.5°"
+                ],
+                answer: 0,
+                domain: "Meteorologi",
+                explain: "Gaya Coriolis berbanding lurus dengan $\sin(\text{lintang})$. Di ekuator ($\text{lintang } 0^\circ$), $\sin(0^\circ) = 0$ sehingga gaya Coriolis bernilai nol."
+            },
+            {
+                q: "Menurut D.L. Huff dan W.J. Reilly dalam Teori Gravitasi Geografi, besarnya kekuatan interaksi antar dua wilayah berbanding lurus dengan...",
+                options: [
+                    "Perkalian jumlah penduduk kedua wilayah dan berbanding terbalik dengan kuadrat jaraknya.",
+                    "Jumlah total fasilitas umum dikali luas wilayah.",
+                    "Beda ketinggian topografi antar kedua wilayah.",
+                    "Tingkat pendapatan per kapita dikali jumlah migran.",
+                    "Ketinggian rata-rata kontur wilayah."
+                ],
+                answer: 0,
+                domain: "Geografi Pembangunan",
+                explain: "Hukum Gravitasi Reilly: $I_{ab} = k \cdot \frac{P_a \cdot P_b}{(d_{ab})^2}$."
+            },
+            {
+                q: "Tipe erupsi gunung api yang dicirikan oleh viskositas lava rendah (encer), kandungan gas rendah, serta lelehan lava efusif yang membentuk gunung api perisai adalah tipe...",
+                options: [
+                    "Hawaiian",
+                    "Plinian",
+                    "Pelean",
+                    "Vulkanian",
+                    "Strombolian"
+                ],
+                answer: 0,
+                domain: "Vulkanologi",
+                explain: "Erupsi Hawaiian ditandai lava basaltik encer dan erupsi efusif tenang membentuk gunung api perisai (shield volcano)."
+            },
+            {
+                q: "Proyeksi peta yang mempertahankan kesesuaian luas wilayah di peta dengan luas sebenarnya di permukaan bumi dinamakan proyeksi...",
+                options: [
+                    "Ekuivalen",
+                    "Konform",
+                    "Ekuidistan",
+                    "Azimuthal",
+                    "Kompromi"
+                ],
+                answer: 0,
+                domain: "Kartografi",
+                explain: "Proyeksi Ekuivalen menjaga distorsi luas daerah agar tetap sama proporsinya di peta."
+            },
+            {
+                q: "Bioma dunia yang didominasi oleh tumbuhan konifer berduri (seperti pinus dan cemara), memiliki musim dingin yang sangat panjang, serta membentang di wilayah sub-arktik dinamakan...",
+                options: [
+                    "Taiga / Hutan Boreal",
+                    "Tundra",
+                    "Hutan Gugur Temperat",
+                    "Savana",
+                    "Chaparral"
+                ],
+                answer: 0,
+                domain: "Biogeografi",
+                explain: "Taiga / Boreal Forest mendominasi kawasan sub-arktik dengan vegetasi gymnospermae daun jarum."
+            },
+            {
+                q: "Fenomena pemusatan aktivitas ekonomi di pusat kota yang menarik tenaga kerja dari daerah pinggiran menurut Gunnar Myrdal dinamakan dampak...",
+                options: [
+                    "Backwash Effect",
+                    "Spread Effect",
+                    "Trickle Down Effect",
+                    "Multiplier Effect",
+                    "Agglomeration Effect"
+                ],
+                answer: 0,
+                domain: "Geografi Pembangunan",
+                explain: "Backwash effect mengalirkan sumber daya dan tenaga kerja terampil dari daerah pinggiran (periphery) menuju pusat pertumbuhan (core)."
+            },
+            {
+                q: "Penggunaan tanah dalam Model Lokasi Pertanian Johann Heinrich von Thünen menempatkan produk pertanian yang cepat rusak (perishable) seperti susu dan sayuran pada zona...",
+                options: [
+                    "Zona 1 (Paling dekat dengan pusat kota/pasar)",
+                    "Zona 2 (Hutan kayu bakar)",
+                    "Zona 3 (Tanaman pangan gandum)",
+                    "Zona 4 (Peternakan ekstensif)",
+                    "Zona 5 (Luar batas wilayah)"
+                ],
+                answer: 0,
+                domain: "Geografi Pertanian",
+                explain: "Zona 1 terletak paling dekat pasar karena sayur & susu membutuhkan ongkos angkut cepat dan tahan lama sebelum membusuk."
+            },
+            {
+                q: "Bentuk lahan erosi eolian berupa bukit pasir berbentuk bulan sabit dengan tanduk mengarah searah dengan arah angin dinamakan...",
+                options: [
+                    "Barchan",
+                    "Seif",
+                    "Parabolik",
+                    "Star Dune",
+                    "Loess"
+                ],
+                answer: 0,
+                domain: "Geomorfologi Eolian",
+                explain: "Barchan adalah gumuk pasir bulan sabit dengan ujung tanduk menunjuk searah embusan angin dominan."
+            },
+            {
+                q: "Dalam analisis SIG, operasi spasial berupa pembuatan zona jarak radius tertentu di sekitar objek titik, garis, atau poligon dinamakan...",
+                options: [
+                    "Buffering",
+                    "Overlay Intersect",
+                    "Dissolve",
+                    "Clip",
+                    "Network Analysis"
+                ],
+                answer: 0,
+                domain: "SIG (GIS)",
+                explain: "Buffering membuat area penyangga berjarak radius konstan dari fitur spasial input."
+            },
+            {
+                q: "Arus laut dalam yang digerakkan oleh perbedaan densitas (massa jenis) air laut akibat variasi suhu dan salinitas global dinamakan...",
+                options: [
+                    "Sirkulasi Termohalin (Thermohaline Circulation)",
+                    "Arus Lintas Indonesia (Arlindo)",
+                    "Arus Ekman Spasial",
+                    "Gelombang Tsunami",
+                    "Sirkulasi Walker"
+                ],
+                answer: 0,
+                domain: "Oseanografi",
+                explain: "Sirkulasi termohalin (Ocean Conveyor Belt) digerakkan perbedaan suhu (thermo) dan salinitas (haline)."
+            },
+            {
+                q: "Model Siklus Hidup Kawasan Pariwisata (Tourism Area Life Cycle / TALC) menurut Richard Butler menempatkan tahap puncak sebelum kemunduran pada fase...",
+                options: [
+                    "Consolidation & Stagnation",
+                    "Exploration",
+                    "Involvement",
+                    "Development",
+                    "Rejuvenation"
+                ],
+                answer: 0,
+                domain: "Geografi Pariwisata",
+                explain: "Tahap Stagnation mencerminkan kapasitas daya dukung lingkungan telah terlampaui sehingga kunjungan relatif jenuh."
+            },
+            {
+                q: "Pada peta topografi dengan kontur interval (CI) sebesar 25 meter, skala peta topografi tersebut adalah...",
+                options: [
+                    "1 : 50.000",
+                    "1 : 25.000",
+                    "1 : 100.000",
+                    "1 : 12.500",
+                    "1 : 200.000"
+                ],
+                answer: 0,
+                domain: "Kartografi / Kalkulasi",
+                explain: "Rumus: $CI = \frac{1}{2000} \times \text{Skala} \implies 25 = \frac{1}{2000} \times S \implies S = 50.000$."
+            },
+            {
+                q: "Proses erosi tanah oleh air hujan yang diawali oleh gumpalan percikan tetesan air hujan yang merusak struktur agregat tanah dinamakan erosi...",
+                options: [
+                    "Erosi Percik (Splash Erosion)",
+                    "Erosi Lembar (Sheet Erosion)",
+                    "Erosi Alur (Rill Erosion)",
+                    "Erosi Parit (Gully Erosion)",
+                    "Erosi Tebing Sungai"
+                ],
+                answer: 0,
+                domain: "Konservasi Tanah",
+                explain: "Splash erosion terjadi akibat tumbukan energi kinetik butir air hujan yang melepaskan partikel tanah."
+            },
+            {
+                q: "Garis pada peta yang menghubungkan tempat-tempat dengan tekanan udara atmosfer yang sama dinamakan...",
+                options: [
+                    "Isobar",
+                    "Isoterm",
+                    "Isohyet",
+                    "Isobath",
+                    "Isogonic"
+                ],
+                answer: 0,
+                domain: "Meteorologi",
+                explain: "Isobar = garis tekanan udara sama. Isoterm = suhu sama. Isohyet = curah hujan sama. Isobath = kedalaman laut sama."
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let userAnswers = new Array(25).fill(null);
+        let quizTimerSeconds = 45 * 60;
+        let quizTimerInterval = null;
+        let isTimerRunning = true;
+
+        function initQuizUI() {
+            renderQuizGrid();
+            renderQuestion(0);
+            startQuizTimer();
+        }
+
+        function renderQuizGrid() {
+            const container = document.getElementById('quiz-grid-container');
+            if (!container) return;
+
+            container.innerHTML = '';
+            for (let i = 0; i < 25; i++) {
+                const btn = document.createElement('button');
+                btn.className = `w-full h-10 rounded-xl font-bold text-xs transition border ${
+                    i === currentQuestionIdx
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                        : userAnswers[i] !== null
+                        ? 'bg-emerald-500 text-white border-emerald-500'
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                }`;
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    currentQuestionIdx = i;
+                    renderQuestion(i);
+                    renderQuizGrid();
+                };
+                container.appendChild(btn);
+            }
+
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            document.getElementById('answered-count-badge').innerText = `${answeredCount}/25 Terjawab`;
+        }
+
+        function renderQuestion(idx) {
+            const q = quizQuestions[idx];
+            document.getElementById('question-number-tag').innerText = `Soal No. ${idx + 1} dari 25`;
+            document.getElementById('question-category-tag').innerText = `Domain: ${q.domain}`;
+            document.getElementById('question-text-container').innerText = q.q;
+
+            const optsContainer = document.getElementById('question-options-container');
+            optsContainer.innerHTML = '';
+
+            q.options.forEach((optText, oIdx) => {
+                const optBtn = document.createElement('button');
+                const isSelected = userAnswers[idx] === oIdx;
+                optBtn.className = `w-full text-left p-4 rounded-2xl border transition flex items-start gap-3 text-xs sm:text-sm font-medium ${
+                    isSelected
+                        ? 'bg-blue-50 border-blue-600 text-blue-900 shadow-sm'
+                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
+                }`;
+                
+                const letter = String.fromCharCode(65 + oIdx);
+                optBtn.innerHTML = `
+                    <span class="w-6 h-6 rounded-lg ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'} font-bold flex items-center justify-center text-xs shrink-0">${letter}</span>
+                    <span class="pt-0.5 leading-relaxed">${optText}</span>
+                `;
+                optBtn.onclick = () => {
+                    userAnswers[idx] = oIdx;
+                    renderQuestion(idx);
+                    renderQuizGrid();
+                };
+                optsContainer.appendChild(optBtn);
+            });
+
+            // Update prev/next button states
+            document.getElementById('btn-quiz-prev').disabled = idx === 0;
+            document.getElementById('btn-quiz-next').innerText = idx === 24 ? 'Selesai Soal' : 'Soal Berikutnya';
+        }
+
+        function navigateQuiz(dir) {
+            const newIdx = currentQuestionIdx + dir;
+            if (newIdx >= 0 && newIdx < 25) {
+                currentQuestionIdx = newIdx;
+                renderQuestion(newIdx);
+                renderQuizGrid();
+            }
+        }
+
+        function startQuizTimer() {
+            clearInterval(quizTimerInterval);
+            quizTimerInterval = setInterval(() => {
+                if (!isTimerRunning) return;
+                quizTimerSeconds--;
+                if (quizTimerSeconds <= 0) {
+                    clearInterval(quizTimerInterval);
+                    alert("Waktu pengerjaan asesmen telah habis!");
+                    submitQuiz();
+                } else {
+                    const mins = Math.floor(quizTimerSeconds / 60);
+                    const secs = quizTimerSeconds % 60;
+                    document.getElementById('quiz-timer-display').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        function toggleQuizTimer() {
+            isTimerRunning = !isTimerRunning;
+            const btn = document.getElementById('btn-toggle-timer');
+            btn.innerHTML = isTimerRunning ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+        }
+
+        function submitQuiz() {
+            clearInterval(quizTimerInterval);
+            
+            let correctCount = 0;
+            quizQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.answer) {
+                    correctCount++;
+                }
+            });
+
+            const score = Math.round((correctCount / 25) * 100);
+
+            document.getElementById('res-score').innerText = `${score} / 100`;
+            document.getElementById('res-correct').innerText = `${correctCount} / 25`;
+
+            let predicate = "Medali Perunggu";
+            if (score >= 88) predicate = "Medali Emas (Gold)";
+            else if (score >= 76) predicate = "Medali Perak (Silver)";
+            else if (score >= 60) predicate = "Medali Perunggu (Bronze)";
+            else predicate = "Peserta Apresiasi";
+
+            document.getElementById('res-predicate').innerText = predicate;
+
+            // Generate Review List
+            const reviewContainer = document.getElementById('quiz-review-container');
+            reviewContainer.innerHTML = '';
+
+            quizQuestions.forEach((q, idx) => {
+                const isCorrect = userAnswers[idx] === q.answer;
+                const userChoice = userAnswers[idx] !== null ? q.options[userAnswers[idx]] : "Tidak Dijawab";
+                const correctChoice = q.options[q.answer];
+
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border text-xs space-y-2 ${
+                    isCorrect ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'
+                }`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between font-bold">
+                        <span class="${isCorrect ? 'text-emerald-800' : 'text-rose-800'}">Soal #${idx + 1} (${q.domain})</span>
+                        <span>${isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-600"></i> Benar' : '<i class="fa-solid fa-circle-xmark text-rose-600"></i> Salah'}</span>
+                    </div>
+                    <p class="font-semibold text-slate-800">${q.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
+                        <div class="p-2 bg-white/80 rounded border"><strong>Jawaban Anda:</strong> ${userChoice}</div>
+                        <div class="p-2 bg-white/80 rounded border text-emerald-900"><strong>Kunci Jawaban:</strong> ${correctChoice}</div>
+                    </div>
+                    <div class="text-[11px] text-slate-600 italic pt-1"><strong>Pembahasan:</strong> ${q.explain}</div>
+                `;
+                reviewContainer.appendChild(card);
+            });
+
+            document.getElementById('quiz-result-card').classList.remove('hidden');
+            document.getElementById('quiz-result-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize default view on load
+        window.onload = function() {
+            selectMateriBab(1);
+            initQuizUI();
+            updateTopoLab();
+            updateNDVILab();
+        };
+    </script>
+</body>
+</html>
